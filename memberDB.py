@@ -32,3 +32,40 @@ if userNum == "1" :
     cur.close()
     conn.commit()
     conn.close()
+
+if userNum == "2" :
+    memberid=input("* 회원정보를 수정할 아이디를 입력하세요 :")
+    membername=input("* 수정할 회원이름을 입력하세요 :")
+    memberemail=input("* 수정할 이메일을 입력하세요 :")
+    memberage=input("* 수정할 나이를 입력하세요 :")
+
+    sql=f"UPDATE membertbl set membername='{membername}',memberemail='{memberemail}',memberage='{memberage}' where memberid='{memberid}'"
+
+    cur=conn.cursor()  #cursor 생성
+    success = cur.execute(sql)  #sql문 실행 -> 반환되는 값이 1이면 '성공'
+
+    if success == 1:
+        print("회원정보수정 성공하셨습니다.")
+    else:
+        print("회원정보수정 실패입니다.")
+
+    cur.close()
+    conn.commit()
+    conn.close()
+
+if userNum == "3" :
+    memberid=input("* 탈퇴활 회원ID를 입력하세요  :")
+
+    sql=f"DELETE FROM membertbl WHERE memberid='{memberid}'"
+
+    cur=conn.cursor()  #cursor 생성
+    success = cur.execute(sql)  #sql문 실행 -> 반환되는 값이 1이면 '성공'
+
+    if success == 1:
+        print("회원 탈퇴 성공하셨습니다.")
+    else:
+        print("회원 탈퇴 실패했습니다.")
+
+    cur.close()
+    conn.commit()
+    conn.close()
