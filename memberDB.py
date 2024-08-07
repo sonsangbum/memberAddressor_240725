@@ -2,7 +2,7 @@ import pymysql
 
 #github 와 연동.
 # https://github.com/sonsangbum/memberAddressor_240725.git
-
+# 테스트
 conn = pymysql.connect(host='localhost',user='root',password='12345', db='memberdb')
 #python program과 mysql간의 connection 생성
 
