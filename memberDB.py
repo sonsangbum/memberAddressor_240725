@@ -1,7 +1,24 @@
 import pymysql
 
+#github 와 연동.
+# https://github.com/sonsangbum/memberAddressor_240725.git
+
 conn = pymysql.connect(host='localhost',user='root',password='12345', db='memberdb')
 #python program과 mysql간의 connection 생성
+
+def checkId(memberid):
+    sql = f"SELECT count(*) FROM membertbl WHERE memberid='{memberid}'"
+
+    cur = conn.cursor()  # cursor 생성
+    success = cur.execute(sql)  # sql문 실행 -> 반환되는 값이 1이면 '성공'
+    member = cur.fetchall()  # 아이디로 조회한 결과 > 레코드가 1개 OR 0개
+    # print(member[0][0])
+    return member[0][0]
+    # if member[0][0] == 1:
+    #     print(f"--->{memberid}는 이미 존재하는 아이디입니다. 다른 아이디를 입력하세요")
+    #     break
+    # else:
+    #     print(f"--->{memberid}는 가입 가능한 아이디입니다.")
 
 while True :
     print("*********************회원관리 프로그램 ********************")
@@ -14,9 +31,29 @@ while True :
 
     userNum=input("위 메뉴 중 한 가지를 선택하세요(1~5)  :")
 
+    # if userNum == "0" :
+    #     memberid = input("* 가입하시려는 회원아이디를 입력하세요 :")
+    #     sql=f"SELECT count(*) FROM membertbl WHERE memberid='{memberid}'"
+    #
+    #     cur=conn.cursor()  #cursor 생성
+    #     success = cur.execute(sql)  #sql문 실행 -> 반환되는 값이 1이면 '성공'
+    #     member=cur.fetchall()  # 아이디로 조회한 결과 > 레코드가 1개 OR 0개
+    #     # print(member[0][0])
+    #
+    #     if member[0][0] == 1 :
+    #         print(f"--->{memberid}는 이미 존재하는 아이디입니다. 다른 아이디를 입력하세요")
+    #     else:
+    #         print(f"--->{memberid}는 가입 가능한 아이디입니다.")
+
     if userNum == "1" :
         print("가입하시려면 회원정보를 입력하세요")
-        memberid=input("* 회원아이디를 입력하세요 :")
+        while True:
+            memberid=input("* 회원아이디를 입력하세요 :")
+            checkflag=checkId(memberid)  # 0 or 1
+            if checkflag == 0:
+                break
+            else:
+                print(f"---> '{memberid}'는 이미 존재하는 아이디 입니다.")
         membername=input("* 회원이름을 입력하세요 :")
         memberemail=input("* 이메일을 입력하세요 :")
         memberage=input("* 나이를 입력하세요 :")
@@ -95,3 +132,5 @@ while True :
 
     else:
         print("존재하지 않는 메뉴번호입니다. 다시 입력해주세요!")
+
+
